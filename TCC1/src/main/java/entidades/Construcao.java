@@ -12,7 +12,7 @@ public class Construcao {
 
 	static private int cont;
 	@Id
-	private int id_construcao;
+	private Integer id_construcao;
 	private String finalidade;
 	private String endereco;
 	private String nome;
@@ -28,7 +28,7 @@ public class Construcao {
 		cont++;
 	}
 
-	public Construcao(int id_construcao, String finalidade, String endereco, String nome, Usuario dono, Planta planta) {
+	public Construcao(Integer id_construcao, String finalidade, String endereco, String nome, Usuario dono, Planta planta) {
 		this.id_construcao = id_construcao;
 		this.finalidade = finalidade;
 		this.endereco = endereco;
@@ -45,11 +45,11 @@ public class Construcao {
 		this.dono = dono;
 	}
 
-	public int getId_construcao() {
+	public Integer getId_construcao() {
 		return id_construcao;
 	}
 
-	public void setId_construcao(int id_construcao) {
+	public void setId_construcao(Integer id_construcao) {
 		this.id_construcao = id_construcao;
 	}
 

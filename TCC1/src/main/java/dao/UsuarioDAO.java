@@ -2,39 +2,36 @@ package dao;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import entidades.Usuario;
 
+@ApplicationScoped
 public class UsuarioDAO {
 
+	@Inject
 	private EntityManager manager;
 
-	public UsuarioDAO() {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("banco");
-		manager = factory.createEntityManager();
-	}
-
 	public void save(Usuario usuario) throws PersistenciaDacException {
-		manager.getTransaction().begin();
-		manager.persist(usuario);
-		manager.getTransaction().commit();
+		if (usuario.getId_usuario() == null) {
+			manager.persist(usuario);
+		} else {
+			update(usuario);
+		}
 	}
 
-	public void update(Usuario usuario) throws PersistenciaDacException {
-		manager.getTransaction().begin();
-		manager.merge(usuario);
-		manager.getTransaction().commit();
+	public Usuario update(Usuario usuario) throws PersistenciaDacException {
+		Usuario resultado = usuario;
+		resultado = manager.merge(usuario);
+		return resultado;
 	}
 
-	public void delete(Integer id) throws PersistenciaDacException {
-		manager.getTransaction().begin();
-		Usuario usuario = manager.find(Usuario.class, id);
+	public void delete(Usuario usuario) throws PersistenciaDacException {
+		usuario = getByID(usuario.getId_usuario());
 		manager.remove(usuario);
-		manager.getTransaction().commit();
 	}
 
 	public Usuario getByID(int usuarioId) throws PersistenciaDacException {

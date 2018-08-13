@@ -1,12 +1,12 @@
 package beans;
 
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
 import entidades.Comentario;
 import servicos.ComentarioServices;
 import servicos.ServiceDacException;
 
-@ManagedBean
+@Named
 @SessionScoped
 public class IndexBeanComentario {
 

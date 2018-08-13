@@ -1,12 +1,13 @@
 package beans;
 
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
+
 import entidades.Construcao;
 import servicos.ConstrucaoServices;
 import servicos.ServiceDacException;
 
-@ManagedBean
+@Named
 @SessionScoped
 public class IndexBeanConstrucao {
 

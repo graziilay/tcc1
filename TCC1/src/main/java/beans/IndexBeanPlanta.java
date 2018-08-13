@@ -1,13 +1,14 @@
 package beans;
 
 import java.util.Date;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
+
 import entidades.Planta;
 import servicos.PlantaServices;
 import servicos.ServiceDacException;
 
-@ManagedBean
+@Named
 @SessionScoped
 public class IndexBeanPlanta {
 

@@ -1,40 +1,46 @@
 package dao;
 
+
+import java.util.List;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.Query;
+
 import entidades.Comentario;
 
+@ApplicationScoped
 public class ComentarioDAO {
 
+	@Inject
 	private EntityManager manager;
-
-	public ComentarioDAO() {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("banco");
-		manager = factory.createEntityManager();
-	}
-
+	
 	public void save(Comentario comentario) throws PersistenciaDacException {
-		manager.getTransaction().begin();
-		manager.persist(comentario);
-		manager.getTransaction().commit();
+		if (comentario.getId_comentario() == null) {
+			manager.persist(comentario);
+		} else {
+			update(comentario);
+		}
 	}
 
-	public void update(Comentario comentario) throws PersistenciaDacException {
-		manager.getTransaction().begin();
-		manager.merge(comentario);
-		manager.getTransaction().commit();
+	public Comentario update(Comentario comentario) throws PersistenciaDacException {
+		Comentario resultado = comentario;
+		resultado = manager.merge(comentario);
+		return resultado;
 	}
 
-	public void delete(Integer id) throws PersistenciaDacException {
-		manager.getTransaction().begin();
-		Comentario comentario = manager.find(Comentario.class, id);
+	public void delete(Comentario comentario) throws PersistenciaDacException {
+		comentario = getByID(comentario.getId_comentario());
 		manager.remove(comentario);
-		manager.getTransaction().commit();
 	}
 
 	public Comentario getByID(int comentarioId) throws PersistenciaDacException {
 		return manager.find(Comentario.class, comentarioId);
 	}
 
+	public List<Comentario> list() throws PersistenciaDacException {
+		Query query = manager.createQuery("from Comentario", Comentario.class);
+		return query.getResultList();
+	}
 }

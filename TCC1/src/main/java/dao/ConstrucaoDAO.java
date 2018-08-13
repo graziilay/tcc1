@@ -1,39 +1,44 @@
 package dao;
 
+import java.util.List;
+import javax.persistence.Query;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import entidades.Construcao;
+import entidades.Usuario;
 
+@ApplicationScoped
 public class ConstrucaoDAO {
 
+	@Inject
 	private EntityManager manager;
 
-	public ConstrucaoDAO() {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("banco");
-		manager = factory.createEntityManager();
-	}
-
 	public void save(Construcao construcao) throws PersistenciaDacException {
-		manager.getTransaction().begin();
-		manager.persist(construcao);
-		manager.getTransaction().commit();
+		if (construcao.getId_construcao() == null) {
+			manager.persist(usuario);
+		} else {
+			update(usuario);
+		}
 	}
 
-	public void update(Construcao construcao) throws PersistenciaDacException {
-		manager.getTransaction().begin();
-		manager.merge(construcao);
-		manager.getTransaction().commit();
+	public Usuario update(Usuario usuario) throws PersistenciaDacException {
+		Usuario resultado = usuario;
+		resultado = manager.merge(usuario);
+		return resultado;
 	}
 
-	public void delete(Integer id) throws PersistenciaDacException {
-		manager.getTransaction().begin();
-		Construcao construcao = manager.find(Construcao.class, id);
-		manager.remove(construcao);
-		manager.getTransaction().commit();
+	public void delete(Usuario usuario) throws PersistenciaDacException {
+		usuario = getByID(usuario.getId_usuario());
+		manager.remove(usuario);
 	}
 
-	public Construcao getByID(int construcaoId) throws PersistenciaDacException {
-		return manager.find(Construcao.class, construcaoId);
+	public Usuario getByID(int usuarioId) throws PersistenciaDacException {
+		return manager.find(Usuario.class, usuarioId);
+	}
+	
+	public List<Usuario> list() throws PersistenciaDacException {
+		Query query = manager.createQuery("from Usuario", Usuario.class);
+		return query.getResultList();
 	}
 }

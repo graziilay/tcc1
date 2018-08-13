@@ -3,11 +3,13 @@ package beans;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
+
 import entidades.Usuario;
 import servicos.ServiceDacException;
 import servicos.UsuarioServices;
 
-@ManagedBean
+@Named
 @SessionScoped
 public class IndexBeanUsuario {
 

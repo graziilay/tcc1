@@ -1,9 +1,13 @@
 package dao;
 
+import java.awt.List;
+
+import javax.management.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import entidades.Planta;
+import entidades.Usuario;
 
 public class PlantaDAO {
 
@@ -37,4 +41,8 @@ public class PlantaDAO {
 		return manager.find(Planta.class, plantaId);
 	}
 
+	public List<Planta> list() throws PersistenciaDacException {
+		Query query = manager.createQuery("from Usuario", Planta.class);
+		return query.getResultList();
+	}
 }
